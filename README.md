@@ -1,13 +1,28 @@
-## terraform-equinix-template
+## Equinix Fabric L2 Connection To Alibaba Express Connect Terraform module
 
-<!-- TEMPLATE: Review all "TEMPLATE" comments and remove them when applied. -->
-<!-- TEMPLATE: replace "template" with the name of your project. The prefix "terraform-equinix-" informs the Terraform registry that this project is a Terraform module associated with the Equinix provider, Oreserve this prefix.  "terraform-metal-" may also be used for Equinix Metal modules, but "terraform-equinix-" will work too. -->
 [![Experimental](https://img.shields.io/badge/Stability-Experimental-red.svg)](https://github.com/equinix-labs/standards#about-uniform-standards)
 [![terraform](https://github.com/equinix-labs/terraform-equinix-template/actions/workflows/integration.yaml/badge.svg)](https://github.com/equinix-labs/terraform-equinix-template/actions/workflows/integration.yaml)
 
-`terraform-equinix-template` is a minimal Terraform module that utilizes [Terraform providers for Equinix](https://registry.terraform.io/namespaces/equinix) to provision digital infrastructure and demonstrate higher level integrations.
+`terraform-equinix-fabric-connection-alibaba` is a Terraform module that utilizes [Terraform provider for Equinix](https://registry.terraform.io/providers/equinix/equinix/latest) and [Terraform provider for Alibaba](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs) to set up an Equinix Fabric L2 connection to Alibaba Express Connect.
 
-<!-- TEMPLATE: Insert an image here of the infrastructure diagram. You can generate a starting image using instructions found at https://www.terraform.io/docs/cli/commands/graph.html#generating-images -->
+As part of Platform Equinix, your infrastructure can connect with other parties, such as public cloud providers, network service providers, or your own colocation cages in Equinix by defining an [Equinix Fabric - software-defined interconnection](https://docs.equinix.com/en-us/Content/Interconnection/Fabric/Fabric-landing-main.htm).
+
+This module creates the l2 connection in Equinix Fabric, approves the request in your account on the Alibaba platform, and optionally creates a Alibaba Express Connect private virtual interface (VIF) and a virtual private gateway (VGW). BGP in Equinix side can be optionally configured if Network Edge device is used.
+
+```html
+     Origin                                              Destination
+    (A-side)                                              (Z-side)
+
+┌────────────────┐
+│ Equinix Fabric │         Equinix Fabric          ┌────────────────────┐       ┌─────────────────────┐
+│ Port / Network ├─────    l2 connection   ───────►│      Alibaba       │──────►│  VBR ─► BGP Group   │
+│ Edge Device /  │      (50 Mbps - 10 Gbps)        │   Express Connect  │       │     ─► BGP Peer     │
+│ Service Token  │                                 └────────────────────┘       │   (Alibaba Region)  │
+└────────────────┘                                                              └─────────────────────┘
+         │                                                                           │
+         └ - - - - - - - - - - Network Edge Device - - - - - - - - - - - - - - - - - ┘
+                                   BGP peering
+```
 
 ### Usage
 
@@ -23,51 +38,50 @@ To use this module in a new project, create a file such as:
 
 ```hcl
 # main.tf
-terraform {
-  required_providers {
-    equinix = {
-      source = "equinix/equinix"
-    }
-    metal = {
-      source = "equinix/metal"
-    }
+provider "equinix" {}
+
+provider "alibaba" { region = "eu-central-1" }
+
+data "alibaba_region" "this" {}
+
+module "equinix-fabric-connection-alibaba" {
+  source  = "equinix-labs/fabric-connection-alibaba/equinix"
+
+  # required variables
+  fabric_notification_users = ["example@equinix.com"]
+  alicloud_account_id            = var.alibaba_account_id
+
+  # optional variables
+  fabric_destination_metro_code = "FR"
+  network_edge_device_id        = "DeviceID"
 }
 
-module "example" {
-  source = "github.com/equinix-labs/template"
-  # TEMPLATE: replace "template" with the name of the repo after the terraform-equinix- or terraform-metal- prefix.
-
-  # Published modules can be sourced as:
-  # source = "equinix-labs/template/equinix"
-  # See https://www.terraform.io/docs/registry/modules/publish.html for details.
-
-  # version = "0.1.0"
-
-  # TEMPLATE: insert required variables here
-}
 ```
 
 Run `terraform init -upgrade` and `terraform apply`.
 
-<!-- TEMPLATE: Expand this section with any additional information or requirements. -->
+### Variables
 
-#### Variables
+See <https://registry.terraform.io/modules/equinix-labs/fabric-connection-alibaba/equinix/latest?tab=inputs> for a description of all variables.
 
-|     Variable Name      |  Type   |        Default Value        | Description                                             |
-| :--------------------: | :-----: | :-------------------------: | :------------------------------------------------------ |
-|                        |         |                             |                                                         |
+### Outputs
 
-<!-- TEMPLATE: If published, remove the table and use the following: See <https://registry.terraform.io/modules/equinix-labs/template/equinix/latest?tab=inputs> for a description of all variables. -->
+See <https://registry.terraform.io/modules/equinix-labs/fabric-connection-alibaba/equinix/latest?tab=outputs> for a description of all outputs.
 
-#### Outputs
+### Resources
 
-|     Variable Name      |  Type   | Description                                             |
-| :--------------------: | :-----: | :------------------------------------------------------ |
-|                        |         |                                                         |
-
-<!-- TEMPLATE: If published, remove the table and use the following: See <https://registry.terraform.io/modules/equinix-labs/template/equinix/latest?tab=outputs> for a description of all outputs. -->
+| Name | Type |
+|------|------|
+| [random_string.this](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
+| [equinix-fabric-connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection/equinix/latest) | module |
+| [equinix_network_bgp.this](https://registry.terraform.io/providers/equinix/equinix/latest/docs/resources/equinix_network_bgp) | resource |
+| [alibaba_dx_connection_confirmation.this](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs/resources/dx_connection_confirmation) | resource |
+| [alibaba_dx_private_virtual_interface.this](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs/resources/dx_private_virtual_interface) | resource |
+| [alibaba_vpn_gateway.this](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs/resources/vpn_gateway) | resource |
+| [alibaba_vpc.this](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs/data-sources/vpc) | data source |
+| [alibaba_region.this](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs/data-sources/region) | data source |
 
 ### Examples
 
-- [examples/simple](examples/simple/)
-
+- [Fabric Port connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-alibaba/equinix/latest/examples/fabric-port-connection/)
+- [Network Edge device connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-alibaba/equinix/latest/examples/network-edge-device-connection/)
