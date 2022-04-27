@@ -1,6 +1,6 @@
 # Network Edge Device Connection Example
 
-This example demonstrates usage of the Equinix Connection Alibaba module to establish a non-redundant Equinix Fabric L2 Connection from a Equinix Network Edge device to Alibaba Direct Connect. It will:
+This example demonstrates usage of the Equinix Connection Alibaba module to establish a non-redundant Equinix Fabric L2 Connection from a Equinix Network Edge device to Alibaba Express Connect. It will:
 
 - Create Equinix Fabric l2 connection with 200 Mbps bandwidth.
 - Approve Alibaba connection request.
