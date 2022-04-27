@@ -75,11 +75,12 @@ See <https://registry.terraform.io/modules/equinix-labs/fabric-connection-alibab
 | [random_string.this](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [equinix-fabric-connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection/equinix/latest) | module |
 | [equinix_network_bgp.this](https://registry.terraform.io/providers/equinix/equinix/latest/docs/resources/equinix_network_bgp) | resource |
-| [alibaba_dx_connection_confirmation.this](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs/resources/dx_connection_confirmation) | resource |
-| [alibaba_dx_private_virtual_interface.this](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs/resources/dx_private_virtual_interface) | resource |
-| [alibaba_vpn_gateway.this](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs/resources/vpn_gateway) | resource |
-| [alibaba_vpc.this](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs/data-sources/vpc) | data source |
-| [alibaba_region.this](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs/data-sources/region) | data source |
+| [alicloud_regions.this](https://registry.terraform.io/providers/aliyun/alicloud/latest/docs/data-sources/regions) | data source |
+| [alicloud_express_connect_virtual_border_routers.this](https://registry.terraform.io/providers/aliyun/alicloud/latest/docs/data-sources/express_connect_virtual_border_routers) | data source |
+| [alicloud_vpc_bgp_group.this](https://registry.terraform.io/providers/aliyun/alicloud/latest/docs/resources/vpc_bgp_group) | resource |
+| [alicloud_vpc_bgp_peer.this](https://registry.terraform.io/providers/aliyun/alicloud/latest/docs/resources/vpc_bgp_peer) | resource |
+| [external.os](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/data_source) | data source |
+| [null_resource.confirm_express_connect_virtual_border_router_creation](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 
 ### Examples
 
