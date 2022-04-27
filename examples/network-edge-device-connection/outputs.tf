@@ -10,10 +10,6 @@ output "fabric_connection_status" {
   value = module.equinix-fabric-connection-alibaba.fabric_connection_status
 }
 
-output "fabric_connection_provider_status" {
-  value = module.equinix-fabric-connection-alibaba.fabric_connection_provider_status
-}
-
 output "network_edge_bgp_state" {
   description = "Network Edge device BGP peer state."
   value       = module.equinix-fabric-connection-alibaba.network_edge_bgp_state

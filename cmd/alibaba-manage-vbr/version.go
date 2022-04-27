@@ -1,5 +1,6 @@
 package main
 
 var (
-	Version = "0.1.0"
+	// Version is set at build-time in the release process
+	Version = "dev"
 )

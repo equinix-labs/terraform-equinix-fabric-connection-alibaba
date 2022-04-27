@@ -13,11 +13,6 @@ output "fabric_connection_status" {
   value       = module.equinix-fabric-connection.primary_connection.status
 }
 
-output "fabric_connection_provider_status" {
-  description = "Connection provisioning provider status."
-  value       = module.equinix-fabric-connection.primary_connection.provider_status
-}
-
 output "fabric_connection_speed" {
   description = "Connection speed."
   value       = module.equinix-fabric-connection.primary_connection.speed

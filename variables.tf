@@ -10,15 +10,18 @@ variable "fabric_notification_users" {
 
 variable "fabric_connection_name" {
   type        = string
-  description = "Name of the connection resource that will be created. It will be auto-generated if not specified."
+  description = <<EOF
+  Name of the connection resource that will be created. It will be auto-generated if not
+  specified.
+  EOF
   default     = ""
 }
 
 variable "fabric_destination_metro_code" {
   type        = string
   description = <<EOF
-  Destination Metro code where the connection will be created. If you do not know the code, 'fabric_destination_metro_name'
-  can be use instead.
+  Destination Metro code where the connection will be created. If you do not know the code,
+  'fabric_destination_metro_name' can be use instead.
   EOF
   default     = ""
 
@@ -33,24 +36,27 @@ variable "fabric_destination_metro_code" {
 variable "fabric_destination_metro_name" {
   type        = string
   description = <<EOF
-  Only required in the absence of 'fabric_destination_metro_code'. Metro name where the connection will be created,
-  i.e. 'Frankfurt', 'Silicon Valley', 'Ashburn'. One of 'fabric_destination_metro_code', 'fabric_destination_metro_name'
-  must be provided.
+  Only required in the absence of 'fabric_destination_metro_code'. Metro name where the connection
+  will be created, i.e. 'Frankfurt', 'Silicon Valley', 'Ashburn'. One of
+  'fabric_destination_metro_code', 'fabric_destination_metro_name' must be provided.
   EOF
   default     = ""
 }
 
 variable "network_edge_device_id" {
   type        = string
-  description = "Unique identifier of the Network Edge virtual device from which the connection would originate."
+  description = <<EOF
+  Unique identifier of the Network Edge virtual device from which the connection would
+  originate.
+  EOF
   default     = ""
 }
 
 variable "network_edge_device_interface_id" {
   type        = number
   description = <<EOF
-  Applicable with 'network_edge_device_id', identifier of network interface on a given device, used for a connection.
-  If not specified then first available interface will be selected.
+  Applicable with 'network_edge_device_id', identifier of network interface on a given device, used
+  for a connection. If not specified then first available interface will be selected.
   EOF
   default     = 0
 }
@@ -58,8 +64,9 @@ variable "network_edge_device_interface_id" {
 variable "network_edge_configure_bgp" {
   type        = bool
   description = <<EOF
-  Applicable with 'network_edge_device_id' and 'alicloud_configure_bgp'. Creation and management of Equinix Network Edge BGP
-  peering configurations. It requires that 'alicloud_configure_bgp' is set to true.
+  Applicable with 'network_edge_device_id' and 'alicloud_configure_bgp'. Creation and management of
+  Equinix Network Edge BGP peering configurations. It requires that 'alicloud_configure_bgp' is set
+  to true.
   EOF
   default     = false
 }
@@ -76,8 +83,8 @@ variable "fabric_port_name" {
 variable "fabric_vlan_stag" {
   type        = number
   description = <<EOF
-  S-Tag/Outer-Tag of the primary connection - a numeric character ranging from 2 - 4094. Required if 'port_name' is
-  specified.
+  S-Tag/Outer-Tag of the primary connection - a numeric character ranging from 2 - 4094. Required if
+  'port_name' is specified.
   EOF
   default     = 0
 }
@@ -85,8 +92,8 @@ variable "fabric_vlan_stag" {
 variable "fabric_service_token_id" {
   type        = string
   description = <<EOF
-  Unique Equinix Fabric key shared with you by a provider that grants you authorization to use their interconnection
-  asset from which the connection would originate.
+  Unique Equinix Fabric key shared with you by a provider that grants you authorization to use
+  their interconnection asset from which the connection would originate.
   EOF
   default     = ""
 }
@@ -94,8 +101,8 @@ variable "fabric_service_token_id" {
 variable "fabric_speed" {
   type        = number
   description = <<EOF
-  Speed/Bandwidth in Mbps to be allocated to the connection. If not specified, it will be used the minimum bandwidth
-  available for the Alibaba service profile.
+  Speed/Bandwidth in Mbps to be allocated to the connection. If not specified, it will be used the
+  minimum bandwidth available for the Alibaba service profile.
   EOF
   default     = 0
 
@@ -127,40 +134,58 @@ variable "alicloud_account_id" {
 
 variable "alicloud_access_key" {
   type        = string
-  description = "This is the Alicloud access key. It must be provided, but it can also be sourced from the ALICLOUD_ACCESS_KEY environment variable."
+  description = <<EOF
+  This is the Alicloud access key. It must be provided, but it can also be sourced from the
+  ALICLOUD_ACCESS_KEY environment variable.
+  EOF
   default     = ""
 }
 
 variable "alicloud_secret_key" {
   type        = string
-  description = "This is the Alicloud secret key. It must be provided, but it can also be sourced from the ALICLOUD_SECRET_KEY environment variable."
+  description = <<EOF
+  This is the Alicloud secret key. It must be provided, but it can also be sourced from the
+  ALICLOUD_SECRET_KEY environment variable.
+  EOF
   default     = ""
 }
 
 variable "alicloud_express_connect_bgp_customer_peer_ip" {
   type        = string
-  description = "The BGP IPv4 address (in CIDR notation) for the router on the Equinix end of the BGP session."
+  description = <<EOF
+  The BGP IPv4 address (in CIDR notation) for the router on the Equinix end of the BGP
+  session, e.g. `169.0.0.1/29`. You can enter a long subnet mask because only two IP
+  addresses are required. For subnets with more than 2 IPs, i.e. /30 /29 /28, avoid use
+  first and last ip, e.g.: subnet `10.0.0.0/30` first IP is 10.0.0.0 and last 10.0.0.3,
+  then you should use 10.0.0.1/30 for customer peer ip, and 10.0.0.2 for cloud peer ip.
+  EOF
   default     = "10.0.0.17/30"
 }
 
 variable "alicloud_express_connect_bgp_cloud_peer_ip" {
   type        = string
-  description = "The BGP IPv4 address for Alibabas's end of the BGP session."
+  description = <<EOF
+  The BGP IPv4 address for Alibabas's end of the BGP session. It must belong to the
+  `alicloud_express_connect_bgp_customer_peer_ip` subnet
+  EOF
   default     = "10.0.0.18"
 }
 
 variable "alicloud_express_connect_bgp_customer_asn" {
   type        = number
   description = <<EOF
-  The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration on the Equinix end
-  of the BGP session.
+  The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration on the Equinix
+  end of the BGP session.
   EOF
   default     = 65000
 }
 
 variable "alicloud_express_connect_bgp_auth_key" {
   type        = string
-  description = "The key for BGP MD5 authentication. Only applicable if your system requires MD5 authentication."
+  description = <<EOF
+  The key for BGP MD5 authentication. Only applicable if your system requires MD5
+  authentication.
+  EOF
   default     = ""
 }
 
