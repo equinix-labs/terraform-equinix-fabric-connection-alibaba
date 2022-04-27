@@ -5,8 +5,7 @@ provider "alicloud" {
 }
 
 module "equinix-fabric-connection-alibaba" {
-  # source = "equinix-labs/fabric-connection-alibaba/equinix"
-  source = "../../"
+  source = "equinix-labs/fabric-connection-alibaba/equinix"
 
   # required variables
   fabric_notification_users = ["example@equinix.com"]
