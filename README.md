@@ -3,7 +3,7 @@
 [![Experimental](https://img.shields.io/badge/Stability-Experimental-red.svg)](https://github.com/equinix-labs/standards#about-uniform-standards)
 [![terraform](https://github.com/equinix-labs/terraform-equinix-template/actions/workflows/integration.yaml/badge.svg)](https://github.com/equinix-labs/terraform-equinix-template/actions/workflows/integration.yaml)
 
-`terraform-equinix-fabric-connection-alibaba` is a Terraform module that utilizes [Terraform provider for Equinix](https://registry.terraform.io/providers/equinix/equinix/latest) and [Terraform provider for Alibaba](https://registry.terraform.io/providers/hashicorp/alibaba/latest/docs) to set up an Equinix Fabric L2 connection to Alibaba Express Connect.
+`terraform-equinix-fabric-connection-alibaba` is a Terraform module that utilizes [Terraform provider for Equinix](https://registry.terraform.io/providers/equinix/equinix/latest) and [Terraform provider for Alibaba](https://registry.terraform.io/providers/aliyun/alicloud/latest/docs) to set up an Equinix Fabric L2 connection to Alibaba Express Connect.
 
 As part of Platform Equinix, your infrastructure can connect with other parties, such as public cloud providers, network service providers, or your own colocation cages in Equinix by defining an [Equinix Fabric - software-defined interconnection](https://docs.equinix.com/en-us/Content/Interconnection/Fabric/Fabric-landing-main.htm).
 
@@ -86,3 +86,4 @@ See <https://registry.terraform.io/modules/equinix-labs/fabric-connection-alibab
 
 - [Fabric Port connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-alibaba/equinix/latest/examples/fabric-port-connection/)
 - [Network Edge device connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-alibaba/equinix/latest/examples/network-edge-device-connection/)
+- [Service Token (a-side) Equinix Metal to Alibaba redundant connection End-to-End Solution](https://registry.terraform.io/modules/equinix-labs/fabric-connection-alibaba/equinix/latest/examples/service-token-metal-to-alibaba-connection/)
