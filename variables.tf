@@ -26,7 +26,7 @@ variable "fabric_destination_metro_code" {
   default     = ""
 
   validation {
-    condition = ( 
+    condition = (
       var.fabric_destination_metro_code == "" ? true : can(regex("^[A-Z]{2}$", var.fabric_destination_metro_code))
     )
     error_message = "Valid metro code consits of two capital leters, i.e. 'FR', 'SV', 'DC'."
@@ -107,7 +107,7 @@ variable "fabric_speed" {
   default     = 0
 
   validation {
-    condition = contains([0, 50, 200, 500, 1000], var.fabric_speed)
+    condition     = contains([0, 50, 200, 500, 1000], var.fabric_speed)
     error_message = "Valid values are (0, 50, 200, 500, 1000)."
   }
 }
@@ -118,13 +118,13 @@ variable "fabric_purchase_order_number" {
   default     = ""
 }
 
-variable alicloud_region {
+variable "alicloud_region" {
   type        = string
   description = <<EOF
   The name of the region to select, such as eu-central-1. Required if the region is not
   configured in the provider.
   EOF
-  default = ""
+  default     = ""
 }
 
 variable "alicloud_account_id" {
