@@ -9,20 +9,20 @@ resource "random_string" "this" {
 }
 
 module "equinix-fabric-connection" {
-  source = "github.com/equinix-labs/terraform-equinix-fabric-connection"
-  version = "0.3.1"
-  
+  source  = "equinix-labs/fabric-connection/equinix"
+  version = "0.4.0"
+
   # required variables
   notification_users = var.fabric_notification_users
 
   # optional variables
   name = var.fabric_connection_name
 
-  seller_profile_name       = "Alibaba Cloud Express Connect"
-  seller_metro_code         = var.fabric_destination_metro_code
-  seller_metro_name         = var.fabric_destination_metro_name
-  seller_region             = local.alicloud_region
-  seller_authorization_key  = var.alicloud_account_id
+  seller_profile_name      = "Alibaba Cloud Express Connect"
+  seller_metro_code        = var.fabric_destination_metro_code
+  seller_metro_name        = var.fabric_destination_metro_name
+  seller_region            = local.alicloud_region
+  seller_authorization_key = var.alicloud_account_id
 
   network_edge_id           = var.network_edge_device_id
   network_edge_interface_id = var.network_edge_device_interface_id
@@ -46,7 +46,7 @@ data "alicloud_express_connect_virtual_border_routers" "this" {
   # }
   filter {
     key    = "Status"
-    values = ["unconfirmed","active"]
+    values = ["unconfirmed", "active"]
   }
 }
 
@@ -56,14 +56,14 @@ resource "null_resource" "confirm_express_connect_virtual_border_router_creation
   depends_on = [
     data.alicloud_express_connect_virtual_border_routers.this
   ]
-  
+
   triggers = {
     vbr_id = local.vbr_id
   }
 
   provisioner "local-exec" {
     working_dir = "${path.module}/bin/${local.os}"
-    interpreter = local.is_windows ? ["PowerShell", "-Command"] : ["/bin/bash" ,"-c"]
+    interpreter = local.is_windows ? ["PowerShell", "-Command"] : ["/bin/bash", "-c"]
 
     command = "./alibaba-manage-vbr confirm-creation --access-key=$ACCESS_KEY --secret-key=$SECRET_KEY --region=$REGION --vbr-id=$VBR_ID --cloud-ip=$CLOUD_IP --customer-ip=$CUSTOMER_IP --subnet-mask=$SUBNET_MASK"
     environment = {
@@ -130,5 +130,5 @@ locals {
 
 data "external" "os" {
   working_dir = "${path.module}/scripts/"
-  program = local.is_windows ? ["{\"os\": \"win\"}"] : ["/bin/bash", "check_linux_os.sh"]
+  program     = local.is_windows ? ["{\"os\": \"win\"}"] : ["/bin/bash", "check_linux_os.sh"]
 }
